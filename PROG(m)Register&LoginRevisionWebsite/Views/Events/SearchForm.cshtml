@@ -1,0 +1,40 @@
+﻿@model PROG_m_Register_LoginRevisionWebsite.Models.Event
+
+@{
+    ViewData["Title"] = "SearchForm";
+}
+
+
+<!-- allow lecturer to add a new claim -->
+<div class="d-flex justify-content-between align-items-center mb-4 ">
+    <h2 class="text-indigo"> SEARCH FORM </h2>
+    <a href="/Lecturer/SubmitClaim" class="btn btn-HomeButtons fw-bold"> + Submit New Claim </a>
+</div>
+
+
+<h4>Event</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="SearchResults">
+            <div class="form-group">
+                <label for="searchWords" class="control-label"></label>
+                <input name="searchWords" class="form-control" />
+            </div>
+
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -1,0 +1,79 @@
+﻿@model IEnumerable<PROG_m_Register_LoginRevisionWebsite.Models.Event>
+
+@{
+    ViewData["Title"] = "Events";
+}
+
+<!-- Page Header -->
+<div class="py-5 text-center bg-light-purple">
+    <h1 class="display-4 text-dark mb-3">Add an Event</h1>
+    <p class="lead text-dark">Manage your events and stay organized</p>
+    <a asp-action="Create" class="btn btn-success btn-lg mt-3">+ Create New Event</a>
+</div>
+
+<!-- Search Section -->
+<div class="container my-4">
+    <form class="d-flex justify-content-center" asp-action="SearchResults" method="get">
+        <input name="searchWords" class="form-control me-2" placeholder="Search events..." style="max-width:400px;" />
+        <button type="submit" class="btn btn-primary fw-bold">Search</button>
+    </form>
+</div>
+
+<!-- Events Table -->
+<div class="container">
+    <table class="table table-striped table-bordered mt-4 shadow-sm">
+        <thead class="table-dark">
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.EventName)</th>
+                <th>@Html.DisplayNameFor(model => model.EventDescription)</th>
+                <th>@Html.DisplayNameFor(model => model.EventDateTime)</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.EventName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EventDescription)</td>
+                    <td>@Html.DisplayFor(modelItem => item.EventDateTime)</td>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.EventID" class="btn btn-sm btn-warning me-1">Edit</a>
+                        <a asp-action="Details" asp-route-id="@item.EventID" class="btn btn-sm btn-info me-1">Details</a>
+                        <a asp-action="Delete" asp-route-id="@item.EventID" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<style>
+    /* Colors */
+    .bg-light-purple {
+        background: linear-gradient(135deg, #d1c4e9, #b39ddb); 
+    }
+
+    /* Table Styling */
+    .table th, .table td {
+        vertical-align: middle;
+    }
+
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+
+    /* Buttons */
+    .btn-lg {
+        border-radius: 8px;
+    }
+
+    .btn-sm {
+        border-radius: 6px;
+    }
+
+    /* Shadow for table */
+    .table.shadow-sm {
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+</style>
