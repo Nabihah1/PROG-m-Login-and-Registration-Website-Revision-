@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using PROG_m_Register_LoginRevisionWebsite.Data;
+using PROG_m_Register_LoginRevisionWebsite.Services;
 
 namespace PROG_m_Register_LoginRevisionWebsite
 {
@@ -15,6 +16,11 @@ namespace PROG_m_Register_LoginRevisionWebsite
             builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString));
             builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+                      
+
+            // this tells ASP.NET: Whenver someone asks for IPaymentFactory, give them PaymentFactory 
+            builder.Services.AddSingleton<IPaymentFactory, PaymentFactory>();
+
 
             builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 // this way i can use a fake email for testing purposes, and the program will still run ( register and login the user)

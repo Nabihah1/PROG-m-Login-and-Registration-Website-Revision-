@@ -1,24 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using PROG_m_Register_LoginRevisionWebsite.Data;
 using PROG_m_Register_LoginRevisionWebsite.Models;
+using PROG_m_Register_LoginRevisionWebsite.Services;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace PROG_m_Register_LoginRevisionWebsite.Controllers
 {
     public class EventsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        // 1. Create Private field to hold the factory 
+        private readonly IPaymentFactory _paymentFactory;
 
-        public EventsController(ApplicationDbContext context)
+        // 2. Inject the factory through the constructor 
+        // ASP NET Core sees this and automatically provides the implementation you registered in program.cs
+        public EventsController(ApplicationDbContext context, IPaymentFactory paymentFactory)
         {
             _context = context;
+            _paymentFactory = paymentFactory;
         }
 
+               
+    
         // GET: Events
         public async Task<IActionResult> Index()
         {
@@ -39,6 +47,20 @@ namespace PROG_m_Register_LoginRevisionWebsite.Controllers
             // where --> to only show the selected event names, not all the event names 
         }
 
+
+        // 3. The Action method that uses the factory 
+        [HttpPost]
+        public IActionResult ProcessPayment(string method, decimal amount)
+        {
+            // the controller doesnt know HOW to create the processor 
+            // it justs asks the factory for one based on a string 
+            var processor = _paymentFactory.Create(method);
+
+            // Use the product created by the factory 
+            ViewBag.Result = processor.Process(amount);
+
+            return View("Index");
+        }
 
         // GET: Events/Details/5
         public async Task<IActionResult> Details(int? id)
